@@ -103,6 +103,7 @@ class _HomescreenState extends State<Homescreen> {
                       Spacer(),
                       InkWell(onTap: () {
                         homeproviderTrue.doneList.add(Homemodel(category: homeproviderTrue.taskList[index].category,task: homeproviderTrue.taskList[index].task));
+                        homeproviderTrue.taskList.removeAt(index);
                         setState(() {
 
                         });
