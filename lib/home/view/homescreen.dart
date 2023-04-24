@@ -25,7 +25,7 @@ class _HomescreenState extends State<Homescreen> {
 
     return SafeArea(
       child: Scaffold(
-        body: Column(
+        body: ListView(
           children: [
             Container(
               padding: EdgeInsets.all(10),
@@ -71,79 +71,120 @@ class _HomescreenState extends State<Homescreen> {
                 ],
               ),
             ),
-            Expanded(
-              child: Container(
-                height: 600,
+            Divider(color: Colors.teal,thickness: 10),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text("ToDo (${homeproviderTrue.taskList.length})",style: TextStyle(fontSize: 20)),
+            ),
+            Divider(color: Colors.teal,thickness: 10),
+            Container(
+              height: 300,
+              width: double.infinity,
+              color: Colors.black12,
+              child: ListView.builder(itemBuilder: (context, index) => Container(
+                margin: EdgeInsets.only(top: 5,bottom: 5),
+                height: 90,
                 width: double.infinity,
-                color: Colors.black12,
-                child: ListView.builder(itemBuilder: (context, index) => Container(
-                  margin: EdgeInsets.only(top: 5,bottom: 5),
-                  height: 90,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("${homeproviderTrue.taskList[index].category}",style: TextStyle(color: Colors.grey.shade400),),
-                            SizedBox(height: 10,),
-                            Text("${homeproviderTrue.taskList[index].task}",style: TextStyle(color: Colors.black,fontSize: 22),),
-                          ],
-                        ),
-                        Spacer(),
-                        InkWell(onTap: () {
-                          showDialog(context: context, builder: (context) {
-                            return AlertDialog(
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  TextField(
-                                    controller: editCat,
-                                    decoration: InputDecoration(
-                                      hintText: "${homeproviderTrue.taskList[index].category}",
-                                    ),
-                                  ),
-                                  SizedBox(height: 5,),
-                                  TextField(
-                                    controller: editTask,
-                                    decoration: InputDecoration(
-                                        hintText: "${homeproviderTrue.taskList[index].task}",
-                                    ),
-                                  ),
-                                  SizedBox(height: 20,),
-                                  ElevatedButton(onPressed: () {
-                                    homeproviderTrue.taskList[index].category = editCat.text;
-                                    homeproviderTrue.taskList[index].task = editTask.text;
-                                    setState(() {
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("${homeproviderTrue.taskList[index].category}",style: TextStyle(color: Colors.grey.shade400),),
+                          SizedBox(height: 10,),
+                          Text("${homeproviderTrue.taskList[index].task}",style: TextStyle(color: Colors.black,fontSize: 22),),
+                        ],
+                      ),
+                      Spacer(),
+                      InkWell(onTap: () {
+                        homeproviderTrue.doneList.add(Homemodel(category: homeproviderTrue.taskList[index].category,task: homeproviderTrue.taskList[index].task));
+                        setState(() {
 
-                                    });
-                                    Navigator.pop(context);
-                                  }, child: Text("Edit"))
-                                ],
-                              ),
-                            );
-                          },);
-                        },child: Icon(Icons.edit,color: Colors.grey.shade400,)),
-                        SizedBox(width: 30,),
-                        InkWell(onTap: () {
-                          homeproviderTrue.taskList.removeAt(index);
-                          setState(() {
+                        });
+                      },child: Icon(Icons.done,color: Colors.green,)),
+                      SizedBox(width: 20,),
+                      InkWell(onTap: () {
+                        showDialog(context: context, builder: (context) {
+                          return AlertDialog(
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                TextField(
+                                  controller: editCat,
+                                  decoration: InputDecoration(
+                                    hintText: "${homeproviderTrue.taskList[index].category}",
+                                  ),
+                                ),
+                                SizedBox(height: 5,),
+                                TextField(
+                                  controller: editTask,
+                                  decoration: InputDecoration(
+                                      hintText: "${homeproviderTrue.taskList[index].task}",
+                                  ),
+                                ),
+                                SizedBox(height: 20,),
+                                ElevatedButton(onPressed: () {
+                                  homeproviderTrue.taskList[index].category = editCat.text;
+                                  homeproviderTrue.taskList[index].task = editTask.text;
+                                  setState(() {
 
-                          });
-                        },child: Icon(Icons.delete,color: Colors.grey.shade400,)),
-                        SizedBox(width: 10,),
-                      ],
-                    ),
+                                  });
+                                  Navigator.pop(context);
+                                }, child: Text("Edit"))
+                              ],
+                            ),
+                          );
+                        },);
+                      },child: Icon(Icons.edit,color: Colors.grey.shade400,)),
+                      SizedBox(width: 20,),
+                      InkWell(onTap: () {
+                        homeproviderTrue.taskList.removeAt(index);
+                        setState(() {
+
+                        });
+                      },child: Icon(Icons.delete,color: Colors.grey.shade400,)),
+                      SizedBox(width: 10,),
+                    ],
                   ),
-                ) ,
-                  itemCount: homeproviderTrue.taskList.length,
-                ) ,
-              ),
+                ),
+              ) ,
+                itemCount: homeproviderTrue.taskList.length,
+              ) ,
+            ),
+            Divider(color: Colors.teal,thickness: 10),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text("Done (${homeproviderTrue.doneList.length})",style: TextStyle(fontSize: 20)),
+            ),
+            Divider(color: Colors.teal,thickness: 10),
+            Container(
+              height: 300,
+              width: double.infinity,
+              color: Colors.black12,
+              child: ListView.builder(itemBuilder: (context, index) => Container(
+                margin: EdgeInsets.only(top: 5,bottom: 5),
+                padding: EdgeInsets.all(10),
+                height: 90,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("${homeproviderTrue.doneList[index].category}",style: TextStyle(color: Colors.grey.shade400),),
+                    SizedBox(height: 10,),
+                    Text("${homeproviderTrue.doneList[index].task}",style: TextStyle(color: Colors.black,fontSize: 22),),
+                  ],
+                )
+              ) ,
+                itemCount: homeproviderTrue.doneList.length,
+              ) ,
             ),
           ],
         ),

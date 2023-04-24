@@ -5,7 +5,6 @@ import '../model/homemodel.dart';
 
 class Homeprovider extends ChangeNotifier
 {
-  List<Homemodel> taskList = [
-
-  ];
+  List<Homemodel> taskList = [];
+  List<Homemodel> doneList = [];
 }
